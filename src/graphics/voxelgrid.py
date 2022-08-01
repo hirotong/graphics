@@ -82,9 +82,7 @@ class Voxelgrid(object):
 
     def from_pointcloud(self, pointcloud):
 
-        mesh = dict()
-        mesh['vertex'] = pointcloud.points
-        mesh['face'] = dict()
+        mesh = {'vertex': pointcloud.points, 'face': {}}
         mesh['face']['vertex_indices'] = pointcloud.mesh
 
         minx = pointcloud.points.x.min()
@@ -254,9 +252,7 @@ class Voxelgrid(object):
 
         assert self._volume is not None
 
-        tsdf = compute_tsdf(self._volume)
-
-        return tsdf
+        return compute_tsdf(self._volume)
 
     def get_frame(self, intrinsics, extrinsics, shape, frame):
 
@@ -270,10 +266,9 @@ class Voxelgrid(object):
 
         resolution = self._resolution
 
-        depth = depth_rendering(extrinsics, intrinsics, shape,
-                                volume, resolution, offset, frame)
-
-        return depth
+        return depth_rendering(
+            extrinsics, intrinsics, shape, volume, resolution, offset, frame
+        )
 
     def downsample(self, shape):
 
